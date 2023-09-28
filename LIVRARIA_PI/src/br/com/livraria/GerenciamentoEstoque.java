@@ -6,6 +6,7 @@ public class GerenciamentoEstoque {
 		
 		Livro livro = new Livro();
 		
+		System.out.println("Teste");
 	}
 
 }
