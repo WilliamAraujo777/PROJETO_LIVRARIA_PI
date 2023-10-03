@@ -9,6 +9,7 @@ programa
 		inteiro escolhaMenu 		   /*VARIAVEL QUE IRÁ GUARDAR A OPÇÃO QUE O USUARIO DESEJA EXECUTAR NO SISTEMA*/
 		cadeia nomeLivro[8001]
 		inteiro qtdLivros = 0
+		inteiro cdLivro
 
 		
 		escreva("===========================================================================\n")
@@ -33,7 +34,17 @@ programa
 					qtdLivros = qtdLivros + 1
 				pare
 				caso 2:
-				
+					
+					escreva("\nInsira o codigo do livro que deseja pesquisar no sistema: ")
+					leia(cdLivro)
+					se(cdLivro >= qtdLivros){
+						escreva("\nLivro não Encontrado!\n")
+						
+					}senao{
+						escreva("\nPesquisa Realizada:")
+						escreva("\nNome do Livro: " + nomeLivro[cdLivro] + "\n")
+					}
+
 				pare
 				caso 3:
 					escreva("==============================LIVROS===============================\n")
@@ -41,6 +52,7 @@ programa
 						escreva("\nCODIGO LIVRO: " + i)
 						escreva("\nNome do Livro: " + nomeLivro[i] + "\n")
 					}
+					escreva("==============================FIM DA LISTA===============================\n")
 				pare
 				caso 4:
 					escreva("Finalizando Sistema...")
@@ -69,7 +81,7 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 1253; 
+ * @POSICAO-CURSOR = 680; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
