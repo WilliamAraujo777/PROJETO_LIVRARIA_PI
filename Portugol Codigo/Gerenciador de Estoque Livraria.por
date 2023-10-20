@@ -8,7 +8,10 @@ programa
 		logico continuaMenu = verdadeiro /*VARIAVEL COM O OBJETIVO DE CONTINUAR EXECUTANDO O "ENQUANTO" QUE MOSTRA O MENU DE OPÇÕES*/
 		inteiro escolhaMenu 		   /*VARIAVEL QUE IRÁ GUARDAR A OPÇÃO QUE O USUARIO DESEJA EXECUTAR NO SISTEMA*/
 		cadeia nomeLivro[8001]
-		inteiro qtdLivros = 0
+ 		cadeia qtdLivros[8001]
+		real precoLivros[8001]
+
+		inteiro codLivroAtual = 0
 		inteiro cdLivro
 
 		
@@ -29,28 +32,72 @@ programa
 			escolha(escolhaMenu){
 				caso 1:
 					escreva("\nInsira o nome do livro que deseja incluir no sistema: ")
-					leia(nomeLivro[qtdLivros])
-					escreva("\nO livro: " + nomeLivro[qtdLivros] + " foi armazenado com sucesso!")
-					qtdLivros = qtdLivros + 1
+					leia(nomeLivro[codLivroAtual])
+          
+          escreva("\nInsira a quantidade dos livros: ")
+					leia(qtdLivros[codLivroAtual])
+        
+          escreva("\nInsira o valor do livro que deseja incluir no sistema: ")
+					leia(precoLivros[codLivroAtual])
+
+					escreva("\nO livro: " + nomeLivro[codLivroAtual] + " foi armazenado com sucesso!")
+					
+          codLivroAtual = codLivroAtual + 1
 				pare
 				caso 2:
 					
 					escreva("\nInsira o codigo do livro que deseja pesquisar no sistema: ")
 					leia(cdLivro)
-					se(cdLivro >= qtdLivros){
+					se(cdLivro >= codLivroAtual ou nomeLivro[cdLivro] == "N/A"){
 						escreva("\nLivro não Encontrado!\n")
 						
 					}senao{
 						escreva("\nPesquisa Realizada:")
-						escreva("\nNome do Livro: " + nomeLivro[cdLivro] + "\n")
+						escreva("\nNome do Livro: " + nomeLivro[cdLivro] + " - ")
+            escreva("Preco do Livro: " + precoLivros[cdLivro] + " - ")
+            escreva("Quantidade do Livro: " + qtdLivros[cdLivro] + "\n")
+
+            
+            escreva("O que deseja fazer? \n1 - Alterar Livro \n2 - Deletar Livro \n3 - Voltar ao Menu")
+            leia(escolhaMenu)
+
+            escolha(escolhaMenu){
+              caso 1:
+                  escreva("Insira o novo nome do Livro: ")
+                  leia(nomeLivro[cdLivro])
+
+                  escreva("LIVRO ALTERADO COM SUCESSO!")
+              pare
+                  
+              caso 2:
+                  nomeLivro[cdLivro] = "N/A"
+                  precoLivros[cdLivro] = 0.0
+                  qtdLivros[cdLivro] = "N/A"
+              pare
+
+              caso 3:
+                  escreva("Voltando ao menu...")
+              pare
+
+            }
+            
+
+
 					}
 
 				pare
 				caso 3:
 					escreva("==============================LIVROS===============================\n")
-					para(inteiro i=0; i<qtdLivros;i++){
-						escreva("\nCODIGO LIVRO: " + i)
-						escreva("\nNome do Livro: " + nomeLivro[i] + "\n")
+					inteiro i = 0
+          para(i=0; i<codLivroAtual;i++){
+
+          se(nomeLivro[i] != "N/A"){
+            escreva("CODIGO LIVRO: " + i + " - ")
+						escreva("Nome do Livro: " + nomeLivro[i] + " - ")
+            escreva("Preco do Livro: " + precoLivros[i] + " - ")
+            escreva("Quantidade do Livro: " + qtdLivros[i] + "\n")
+          }
+						
 					}
 					escreva("==============================FIM DA LISTA===============================\n")
 				pare
