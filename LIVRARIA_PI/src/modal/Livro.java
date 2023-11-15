@@ -1,5 +1,5 @@
 package modal;
 
-public class A {
+public class Livro {
 
 }
