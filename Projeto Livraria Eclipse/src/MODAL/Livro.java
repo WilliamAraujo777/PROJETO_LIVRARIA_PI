@@ -1,4 +1,4 @@
-package MODEL;
+package MODAL;
 
 public class Livro {
 	String nome;
