@@ -10,25 +10,21 @@ public class Livraria_Main {
 		boolean continuaMenu = true;
 		int escolhaMenu;
 		String	[] nomeLivro 		= new String[8000];
-		int		[] quantidadeLivro 	= new int[8000];
+		int		[] quantidadeLivro 	= new int	[8000];
 		double	[] precoLivro 		= new double[8000];
 		int 	   codigoLivroAtual = 0;
 		int 	   cdLivroPesquisado;
 
 		System.out.println("===========================================================================");
 		System.out.println("======================PROGRAMA GERENCIADOR DE ESTOQUE======================");
-		System.out.println("===========================================================================");
 
 		Scanner teclado = new Scanner(System.in);
 
 		while (continuaMenu == true) {
-
-			System.out.println("/n");
 			System.out.println(
 					"==============================MENU PRINCIPAL===============================\n 1 - INSERIR LIVROS\n 2 - PESQUISAR LIVROS\n 3 - VER TODOS OS LIVROS\n 4 - FINALIZAR PROGRAMA\n");
 
 			System.out.println("Insira a opção que deseja executar: ");
-			System.out.println("/n");
 			escolhaMenu = teclado.nextInt();
 
 			switch (escolhaMenu) {
@@ -81,16 +77,16 @@ public class Livraria_Main {
 				break;
 
 			case 3:
-				System.out.println("\"==============================FIM DA LISTA===============================\\n\"");
+				System.out.println("==============================INICIO DA LISTA===============================\n");
 				for (int i = 0; i < codigoLivroAtual; i++) {
 					if (nomeLivro[i] != "N/A") {
-						System.out.println("CODIGO LIVRO: " + i + "-");
-						System.out.println("Nome do Livro: " + nomeLivro[i] + " - ");
-						System.out.println("Preco do Livro: " + precoLivro[i] + " - ");
-						System.out.println("Quantidade do Livro: " + quantidadeLivro[i] + "\n");
+						System.out.print("CODIGO LIVRO: " + i + " - ");
+						System.out.print("Nome do Livro: " + nomeLivro[i] + " - ");
+						System.out.print("Preco do Livro: " + precoLivro[i] + " - ");
+						System.out.print("Quantidade do Livro: " + quantidadeLivro[i] + "\n");
 					}
 				}
-				System.out.println("==============================FIM DA LISTA===============================\n");
+				System.out.println("\n==============================FIM DA LISTA===============================");
 				break;
 
 			case 4:
