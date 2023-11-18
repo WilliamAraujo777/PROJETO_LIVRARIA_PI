@@ -2,6 +2,8 @@ package MODAL;
 
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 public class Livraria_Main {
 
 	public static void main(String[] args) {
@@ -14,34 +16,44 @@ public class Livraria_Main {
 		double	[] precoLivro 		= new double[8000];
 		int 	   codigoLivroAtual = 0;
 		int 	   cdLivroPesquisado;
+		String 	nome = "";
+		String 	preco = "";
+		String 	qtdLivros = "";
 
-		System.out.println("===========================================================================");
-		System.out.println("======================PROGRAMA GERENCIADOR DE ESTOQUE======================");
 
+		String[] opcoesMenu = { "Inserir Livro", "Pesquisar Livro", "Ver todos os Livros", "Finalizar Sistema" };
 		Scanner teclado = new Scanner(System.in);
 
-		while (continuaMenu == true) {
-			System.out.println(
-					"==============================MENU PRINCIPAL===============================\n 1 - INSERIR LIVROS\n 2 - PESQUISAR LIVROS\n 3 - VER TODOS OS LIVROS\n 4 - FINALIZAR PROGRAMA\n");
 
-			System.out.println("Insira a opção que deseja executar: ");
-			escolhaMenu = teclado.nextInt();
+		while (continuaMenu == true) {
+
+			escolhaMenu =  JOptionPane.showOptionDialog(null, "MENU PRINCIPAL","SISTEMA GERENCIADOR DE ESTOQUE" , 
+					0, 3, null, opcoesMenu, opcoesMenu[0]);
+			
+			//WILL : TRATATIVA, CASO O USUARIO SELECIONE O "X" DO JOPTION NO MENU, A VARIAVEL escolhaMenu IRA RECEBER "3", QUE IRA FINALIZAR O SISTEMA
+			if(escolhaMenu == JOptionPane.CLOSED_OPTION) {
+				escolhaMenu = 3;
+			}
 
 			switch (escolhaMenu) {
-			case 1:
-				System.out.println("\nInsira o nome do livro que deseja incluir no sistema: ");
-				nomeLivro[codigoLivroAtual] = teclado.next();
-				System.out.println("\nInsira a quantidade dos livros: ");
-				quantidadeLivro[codigoLivroAtual] = teclado.nextInt();
-				System.out.println("\nInsira o valor do livro que deseja incluir no sistema: ");
-				precoLivro[codigoLivroAtual] = teclado.nextDouble();
-				System.out.println("\nO livro: " + nomeLivro[codigoLivroAtual] + " foi armazenado com sucesso!");
+			case 0:				
+				nomeLivro[codigoLivroAtual] = JOptionPane.showInputDialog
+						(null, "Insira o nome do livro: ", "NOME", JOptionPane.INFORMATION_MESSAGE);
+
+				quantidadeLivro[codigoLivroAtual] = Integer.parseInt(JOptionPane.showInputDialog
+						(null, "Insira a quantidade de livros: ", "QUANTIDADE", JOptionPane.INFORMATION_MESSAGE));
+
+				precoLivro[codigoLivroAtual] = Double.parseDouble(JOptionPane.showInputDialog
+						(null, "Insira o valor do livro: ", "VALOR", JOptionPane.INFORMATION_MESSAGE));
+				
+				
+				FormataMensagemJOPTION("O livro: " + nomeLivro[codigoLivroAtual] + "\nfoi armazenado com sucesso!", "SAINDO", "INFORMATION");
 				codigoLivroAtual = codigoLivroAtual + 1;
 				break;
 
-			case 2:
-				System.out.println("\nInsira o codigo do livro que deseja pesquisar no sistema: ");
-				cdLivroPesquisado = teclado.nextInt();
+			case 1:
+				cdLivroPesquisado = Integer.parseInt(JOptionPane.showInputDialog
+						(null, "Insira a quantidade de livros: ", "QUANTIDADE", JOptionPane.INFORMATION_MESSAGE));
 				if (cdLivroPesquisado >= codigoLivroAtual || nomeLivro[cdLivroPesquisado] == "N/A") {
 					System.out.println("\nLivro não Encontrado!\n");
 				} else {
@@ -76,7 +88,7 @@ public class Livraria_Main {
 				}
 				break;
 
-			case 3:
+			case 2:
 				System.out.println("==============================INICIO DA LISTA===============================\n");
 				for (int i = 0; i < codigoLivroAtual; i++) {
 					if (nomeLivro[i] != "N/A") {
@@ -89,8 +101,8 @@ public class Livraria_Main {
 				System.out.println("\n==============================FIM DA LISTA===============================");
 				break;
 
-			case 4:
-				System.out.println("Finalizando Sistema...");
+			case 3:
+				FormataMensagemJOPTION("Sistema finalizado", "SAINDO", "INFORMATION");
 				continuaMenu = false;
 				break;
 
@@ -102,5 +114,21 @@ public class Livraria_Main {
 			}
 		}
 	}
+
+	public static void FormataMensagemJOPTION(String msg, String titulo, String tipoMsg) {
+
+		if(tipoMsg.equals("INFORMATION")) {
+			JOptionPane.showMessageDialog(null, msg, titulo, JOptionPane.INFORMATION_MESSAGE);
+		}else if(tipoMsg.equals("WARNING")) {
+			JOptionPane.showMessageDialog(null, msg, titulo, JOptionPane.WARNING_MESSAGE);
+		}else if(tipoMsg.equals("ERROR")) {
+			JOptionPane.showMessageDialog(null, msg, titulo, JOptionPane.ERROR_MESSAGE);
+		}
+
+
+	}
+
+
+
 }
 
