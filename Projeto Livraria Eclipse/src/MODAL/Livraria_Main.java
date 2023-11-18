@@ -1,7 +1,5 @@
 package MODAL;
 
-import java.util.Scanner;
-
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,6 +19,7 @@ public class Livraria_Main {
 		String	[] nomeLivro 		= new String[8000];
 		String	[] opcoesMenu = { "Inserir Livro", "Pesquisar Livro", "Ver todos os Livros", "Finalizar Sistema" };
 		String	[] opcoesPesquisa = { "Alterar Livro", "Deletar Livro", "Voltar ao menu" };
+		String	[] opcoesUpdate = {"Nome","Quantidade","Preco" };
 		int		[] quantidadeLivro 	= new int	[8000];
 		double	[] precoLivro 		= new double[8000];
 
@@ -68,22 +67,40 @@ public class Livraria_Main {
 					FormataMensagemJOPTION("Livro não Encontrado!", "ATENÇÃO", "WARNING");
 				}else{
 					
-					msgLivroPesquisado = "Pesquisa Realizada:\nNome do Livro: " + nomeLivro[cdLivroPesquisado];
-					msgLivroPesquisado += "\nQuantidade do Livro: " 			+ quantidadeLivro[cdLivroPesquisado];
-					msgLivroPesquisado += "\nPreço do Livro: " 					+ precoLivro[cdLivroPesquisado];
+					msgLivroPesquisado = "===| Pesquisa Realizada |===\n\n\n"; 	
+					msgLivroPesquisado += "Nome do Livro  : "	+ nomeLivro[cdLivroPesquisado];;
+					msgLivroPesquisado += "\nQuantidade do Livro: "	+ quantidadeLivro[cdLivroPesquisado];
+					msgLivroPesquisado += "\nPreço do Livro		: " + precoLivro[cdLivroPesquisado] + "\n\n\n";
 					
 					escolhaMenu =  JOptionPane.showOptionDialog(null, msgLivroPesquisado,"RESULTADO" , 
-							0, 3, null, opcoesPesquisa, opcoesPesquisa[0]);
+							JOptionPane.PLAIN_MESSAGE,1, null, opcoesPesquisa, opcoesPesquisa[0]);
 
 					if (escolhaMenu == 0) {
-						System.out.println("Insira o nome do livro: ");
-						//nomeLivro[cdLivroPesquisado] = teclado.next();
+						escolhaMenu =  JOptionPane.showOptionDialog(null, "Qual atributo do livro deseja alterar?","RESULTADO" , 
+								JOptionPane.PLAIN_MESSAGE,1, null, opcoesUpdate, opcoesUpdate[0]);
+						
+						switch(escolhaMenu) {
+						case 0: 
+							nomeLivro[cdLivroPesquisado] =
+									JOptionPane.showInputDialog(null, "Insira o novo nome do livro: ",nomeLivro[cdLivroPesquisado]);
+							break;
+						case 1:
+							quantidadeLivro[cdLivroPesquisado] = Integer.parseInt(
+									JOptionPane.showInputDialog(null, "Insira a nova quantidade do livro: ",quantidadeLivro[cdLivroPesquisado]));
+							break;
+						case 2:
+							precoLivro[cdLivroPesquisado] = Double.parseDouble(
+									JOptionPane.showInputDialog(null,"Insira o novo preço do livro: ",precoLivro[cdLivroPesquisado]));							
+							break;
+		
+						}
+						
 						FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
 
 					} else if (escolhaMenu == 1) {
 						if (cdLivroPesquisado == codigoLivroAtual - 1) {
 							nomeLivro[cdLivroPesquisado] = "N/A";
-							cdLivroPesquisado = cdLivroPesquisado - 1;
+							codigoLivroAtual = codigoLivroAtual - 1;
 
 						} else {
 							nomeLivro[cdLivroPesquisado] = "N/A";
@@ -91,7 +108,7 @@ public class Livraria_Main {
 								nomeLivro[i] = nomeLivro[i + 1];
 								precoLivro[i] = precoLivro[i + 1];
 								quantidadeLivro[i] = quantidadeLivro[i + 1];
-								cdLivroPesquisado = cdLivroPesquisado -1;
+								codigoLivroAtual = codigoLivroAtual -1;
 							}
 						}
 						FormataMensagemJOPTION("LIVRO DELETADO", "DELETE", "INFORMATION");
