@@ -10,6 +10,7 @@ public class Livraria_Main {
 
 		// Variaveis
 		boolean continuaMenu = true;
+		String msgLivroPesquisado = "";
 		int escolhaMenu;
 		String	[] nomeLivro 		= new String[8000];
 		int		[] quantidadeLivro 	= new int	[8000];
@@ -22,6 +23,8 @@ public class Livraria_Main {
 
 
 		String[] opcoesMenu = { "Inserir Livro", "Pesquisar Livro", "Ver todos os Livros", "Finalizar Sistema" };
+		String[] opcoesPesquisa = { "Alterar Livro", "Deletar Livro", "Voltar ao menu" };
+
 		Scanner teclado = new Scanner(System.in);
 
 
@@ -47,29 +50,31 @@ public class Livraria_Main {
 						(null, "Insira o valor do livro: ", "VALOR", JOptionPane.INFORMATION_MESSAGE));
 				
 				
-				FormataMensagemJOPTION("O livro: " + nomeLivro[codigoLivroAtual] + "\nfoi armazenado com sucesso!", "SAINDO", "INFORMATION");
+				FormataMensagemJOPTION("O livro: " + nomeLivro[codigoLivroAtual] + "\nFoi armazenado com sucesso!", "SAINDO", "INFORMATION");
 				codigoLivroAtual = codigoLivroAtual + 1;
 				break;
 
 			case 1:
 				cdLivroPesquisado = Integer.parseInt(JOptionPane.showInputDialog
-						(null, "Insira a quantidade de livros: ", "QUANTIDADE", JOptionPane.INFORMATION_MESSAGE));
+						(null, "Insira a codigo do livro que deseja pesquisar: ", "PESQUISA", JOptionPane.INFORMATION_MESSAGE));
 				if (cdLivroPesquisado >= codigoLivroAtual || nomeLivro[cdLivroPesquisado] == "N/A") {
-					System.out.println("\nLivro não Encontrado!\n");
+					FormataMensagemJOPTION("Livro não Encontrado!", "ATENÇÃO", "WARNING");
 				} else {
-					System.out.println("\nPesquisa Realizada:");
-					System.out.println("\nNome do Livro: " + nomeLivro[cdLivroPesquisado] + " - ");
-					System.out.println("Quantidade do Livro: " + quantidadeLivro[cdLivroPesquisado] + "\n");
-					System.out.println(
-							"O que deseja fazer? \n1 - Alterar Livro \n2 - Deletar Livro \n3 - Voltar ao Menu");
-					escolhaMenu = teclado.nextInt();
+					msgLivroPesquisado = "Pesquisa Realizada:\nNome do Livro: " + nomeLivro[cdLivroPesquisado];
+					msgLivroPesquisado += "\nQuantidade do Livro: " 			+ quantidadeLivro[cdLivroPesquisado];
+					msgLivroPesquisado += "\nPreço do Livro: " 					+ precoLivro[cdLivroPesquisado];
+					
+					escolhaMenu =  JOptionPane.showOptionDialog(null, msgLivroPesquisado,"RESULTADO" , 
+							0, 3, null, opcoesPesquisa, opcoesPesquisa[0]);
+					
+				
 
-					if (escolhaMenu == 1) {
+					if (escolhaMenu == 0) {
 						System.out.println("Insira o nome do livro: ");
 						nomeLivro[cdLivroPesquisado] = teclado.next();
 						System.out.println("LIVRO ALTERADO COM SUCESSO!!!");
 
-					} else if (escolhaMenu == 2) {
+					} else if (escolhaMenu == 1) {
 						if (cdLivroPesquisado == codigoLivroAtual - 1) {
 							nomeLivro[cdLivroPesquisado] = "N/A";
 							cdLivroPesquisado = cdLivroPesquisado - 1;
