@@ -17,9 +17,9 @@ public class Livraria_Main {
 		
 		//VETORES
 		String	[] nomeLivro 		= new String[8000];
-		String	[] opcoesMenu = { "Inserir Livro", "Pesquisar Livro", "Ver todos os Livros", "Finalizar Sistema" };
-		String	[] opcoesPesquisa = { "Alterar Livro", "Deletar Livro", "Voltar ao menu" };
-		String	[] opcoesUpdate = {"Nome","Quantidade","Preco" };
+		String	[] opcoesMenu = {"Inserir Livro", "Pesquisar Livro", "Ver todos os Livros", "Finalizar Sistema"};
+		String	[] opcoesPesquisa = {"Alterar Livro", "Deletar Livro", "Voltar ao menu" };
+		String	[] opcoesUpdate = {"Nome","Quantidade","Preco"};
 		int		[] quantidadeLivro 	= new int	[8000];
 		double	[] precoLivro 		= new double[8000];
 
@@ -94,7 +94,6 @@ public class Livraria_Main {
 							break;
 		
 						}
-						
 						FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
 
 					} else if (escolhaMenu == 1) {
@@ -157,11 +156,6 @@ public class Livraria_Main {
 		}else if(tipoMsg.equals("ERROR")) {
 			JOptionPane.showMessageDialog(null, msg, titulo, JOptionPane.ERROR_MESSAGE);
 		}
-
-
 	}
-
-
-
 }
 
