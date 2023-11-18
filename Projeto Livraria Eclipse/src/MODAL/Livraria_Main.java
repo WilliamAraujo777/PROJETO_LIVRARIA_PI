@@ -3,31 +3,38 @@ package MODAL;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Livraria_Main {
 
 	public static void main(String[] args) {
 
-		// Variaveis
-		boolean continuaMenu = true;
-		String msgLivroPesquisado = "";
-		int escolhaMenu;
+		//VARIAVEIS 
+		boolean continuaMenu 		= true;
+		String  msgLivroPesquisado 	= "";
+		int 	escolhaMenu=0,codigoLivroAtual=0,cdLivroPesquisado = 0;
+	
+		
+		//VETORES
 		String	[] nomeLivro 		= new String[8000];
+		String	[] opcoesMenu = { "Inserir Livro", "Pesquisar Livro", "Ver todos os Livros", "Finalizar Sistema" };
+		String	[] opcoesPesquisa = { "Alterar Livro", "Deletar Livro", "Voltar ao menu" };
 		int		[] quantidadeLivro 	= new int	[8000];
 		double	[] precoLivro 		= new double[8000];
-		int 	   codigoLivroAtual = 0;
-		int 	   cdLivroPesquisado;
-		String 	nome = "";
-		String 	preco = "";
-		String 	qtdLivros = "";
 
-
-		String[] opcoesMenu = { "Inserir Livro", "Pesquisar Livro", "Ver todos os Livros", "Finalizar Sistema" };
-		String[] opcoesPesquisa = { "Alterar Livro", "Deletar Livro", "Voltar ao menu" };
-
-		Scanner teclado = new Scanner(System.in);
-
-
+		
+		//OBJETOS
+		DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("CÓDIGO LIVRO");
+        modelo.addColumn("NOME DO LIVRO");
+        modelo.addColumn("PREÇO");
+        modelo.addColumn("QUANTIDADE");
+        
+        JTable tabelaLivros;
+        JScrollPane ModeloFinalLivros;
+        
 		while (continuaMenu == true) {
 
 			escolhaMenu =  JOptionPane.showOptionDialog(null, "MENU PRINCIPAL","SISTEMA GERENCIADOR DE ESTOQUE" , 
@@ -59,20 +66,19 @@ public class Livraria_Main {
 						(null, "Insira a codigo do livro que deseja pesquisar: ", "PESQUISA", JOptionPane.INFORMATION_MESSAGE));
 				if (cdLivroPesquisado >= codigoLivroAtual || nomeLivro[cdLivroPesquisado] == "N/A") {
 					FormataMensagemJOPTION("Livro não Encontrado!", "ATENÇÃO", "WARNING");
-				} else {
+				}else{
+					
 					msgLivroPesquisado = "Pesquisa Realizada:\nNome do Livro: " + nomeLivro[cdLivroPesquisado];
 					msgLivroPesquisado += "\nQuantidade do Livro: " 			+ quantidadeLivro[cdLivroPesquisado];
 					msgLivroPesquisado += "\nPreço do Livro: " 					+ precoLivro[cdLivroPesquisado];
 					
 					escolhaMenu =  JOptionPane.showOptionDialog(null, msgLivroPesquisado,"RESULTADO" , 
 							0, 3, null, opcoesPesquisa, opcoesPesquisa[0]);
-					
-				
 
 					if (escolhaMenu == 0) {
 						System.out.println("Insira o nome do livro: ");
-						nomeLivro[cdLivroPesquisado] = teclado.next();
-						System.out.println("LIVRO ALTERADO COM SUCESSO!!!");
+						//nomeLivro[cdLivroPesquisado] = teclado.next();
+						FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
 
 					} else if (escolhaMenu == 1) {
 						if (cdLivroPesquisado == codigoLivroAtual - 1) {
@@ -88,33 +94,38 @@ public class Livraria_Main {
 								cdLivroPesquisado = cdLivroPesquisado -1;
 							}
 						}
-						System.out.println("LIVRO DELETADO COM SUCESSO!!!");
+						FormataMensagemJOPTION("LIVRO DELETADO", "DELETE", "INFORMATION");
 					}
 				}
 				break;
 
 			case 2:
-				System.out.println("==============================INICIO DA LISTA===============================\n");
+				modelo = new DefaultTableModel();
+				modelo.addColumn("CÓDIGO LIVRO");
+		        modelo.addColumn("NOME DO LIVRO");
+		        modelo.addColumn("PREÇO");
+		        modelo.addColumn("QUANTIDADE");
+				
 				for (int i = 0; i < codigoLivroAtual; i++) {
-					if (nomeLivro[i] != "N/A") {
-						System.out.print("CODIGO LIVRO: " + i + " - ");
-						System.out.print("Nome do Livro: " + nomeLivro[i] + " - ");
-						System.out.print("Preco do Livro: " + precoLivro[i] + " - ");
-						System.out.print("Quantidade do Livro: " + quantidadeLivro[i] + "\n");
+					if (!"N/A".equals(nomeLivro[i])) {
+						modelo.addRow(new Object[]{i, nomeLivro[i], precoLivro[i], quantidadeLivro[i]});
 					}
 				}
-				System.out.println("\n==============================FIM DA LISTA===============================");
+				
+				 //Criando uma JTABLE e mapeando ela com meu TableModel 'MODELO', assim ela assumi as colunas e seus dados obtidos pelo for
+		        tabelaLivros = new JTable(modelo);
+
+		        //Pego minha tabela mapeada, e adiciono ao componente JScrollPane , com o objetivo de adicionar uma barra de rolagem a visualização
+		        //além de deixar a mesma mais "Agradavel" do que só o JTable naturalmente.
+		        ModeloFinalLivros = new JScrollPane(tabelaLivros);
+		        
+				JOptionPane.showMessageDialog(null, ModeloFinalLivros, "Informações dos Livros", JOptionPane.PLAIN_MESSAGE);
+				
 				break;
 
 			case 3:
 				FormataMensagemJOPTION("Sistema finalizado", "SAINDO", "INFORMATION");
 				continuaMenu = false;
-				break;
-
-			default:
-				System.out.println("\n");
-				System.out.println("OPÇÃO INVALIDA! INSIRA APENAS NUMEROS QUE EQUIVALEM AS OPÇÕES DO MENU");
-				System.out.println("\n");
 				break;
 			}
 		}
