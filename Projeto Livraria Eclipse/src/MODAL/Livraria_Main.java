@@ -12,7 +12,11 @@ public class Livraria_Main {
 		//VARIAVEIS 
 		boolean continuaMenu 		= true;
 		String  msgLivroPesquisado 	= "";
+		String 	novoNomeLivro = "";
+		String valor = "";
+		int 	novaQuantidadeLivro = 0;
 		int 	escolhaMenu=0,codigoLivroAtual=0,cdLivroPesquisado = 0;
+		Double 	novoPrecoLivro = 0.0;
 	
 		
 		//VETORES
@@ -45,24 +49,76 @@ public class Livraria_Main {
 			}
 
 			switch (escolhaMenu) {
-			case 0:				
-				nomeLivro[codigoLivroAtual] = JOptionPane.showInputDialog
+			case 0:			
+				novoNomeLivro = JOptionPane.showInputDialog
 						(null, "Insira o nome do livro: ", "NOME", JOptionPane.INFORMATION_MESSAGE);
+				
+				//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
+				if(novoNomeLivro == null) {
+					break;
+				}else if(novoNomeLivro.trim().equals("")) {
+					FormataMensagemJOPTION("Por favor, insira um texto no nome do Livro", "Erro", "ERROR");
+					break;
+				}
 
-				quantidadeLivro[codigoLivroAtual] = Integer.parseInt(JOptionPane.showInputDialog
-						(null, "Insira a quantidade de livros: ", "QUANTIDADE", JOptionPane.INFORMATION_MESSAGE));
-
-				precoLivro[codigoLivroAtual] = Double.parseDouble(JOptionPane.showInputDialog
-						(null, "Insira o valor do livro: ", "VALOR", JOptionPane.INFORMATION_MESSAGE));
+				valor = JOptionPane.showInputDialog
+						(null, "Insira a quantidade de livros: ", "QUANTIDADE", JOptionPane.INFORMATION_MESSAGE);
+				
+				//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
+				if(valor == null) {
+					break;
+				}
+				
+				//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE QUANTIDADE
+				try {
+					novaQuantidadeLivro = Integer.parseInt(valor);	
+				} catch (NumberFormatException e) {
+					FormataMensagemJOPTION("Por favor, insira um número válido para a quantidade de Livros", "Erro", "ERROR");
+					break;
+				}
+				
+				valor = JOptionPane.showInputDialog
+						(null, "Insira o valor do livro: ", "VALOR", JOptionPane.INFORMATION_MESSAGE);
+				
+				//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO				
+				if(valor == null) {
+					break;
+				}
+				
+				//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE VALOR
+				try {
+					novoPrecoLivro = Double.parseDouble(valor);	
+				} catch (NumberFormatException e) {
+					FormataMensagemJOPTION("Por favor, insira um número válido para o valor dos Livros", "Erro", "ERROR");
+					break;
+				}
 				
 				
+				nomeLivro[codigoLivroAtual] 		= novoNomeLivro;
+				quantidadeLivro[codigoLivroAtual] 	= novaQuantidadeLivro;
+				precoLivro[codigoLivroAtual] 		= novoPrecoLivro;
+
 				FormataMensagemJOPTION("O livro: " + nomeLivro[codigoLivroAtual] + "\nFoi armazenado com sucesso!", "SAINDO", "INFORMATION");
 				codigoLivroAtual = codigoLivroAtual + 1;
 				break;
-
 			case 1:
-				cdLivroPesquisado = Integer.parseInt(JOptionPane.showInputDialog
-						(null, "Insira a codigo do livro que deseja pesquisar: ", "PESQUISA", JOptionPane.INFORMATION_MESSAGE));
+				
+				valor = JOptionPane.showInputDialog
+						(null, "Insira a codigo do livro que deseja pesquisar: ", "PESQUISA", JOptionPane.INFORMATION_MESSAGE);
+				
+				//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO				
+				if(valor == null) {
+					break;
+				}
+				
+				//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE PESQUISA DO LIVRO
+				try {
+					cdLivroPesquisado = Integer.parseInt(valor);
+				} catch (NumberFormatException e) {
+					FormataMensagemJOPTION("Por favor, insira um número válido para pesquisar os livros", "Erro", "ERROR");
+					break;
+				}
+				
 				if (cdLivroPesquisado >= codigoLivroAtual || nomeLivro[cdLivroPesquisado] == "N/A") {
 					FormataMensagemJOPTION("Livro não Encontrado!", "ATENÇÃO", "WARNING");
 				}else{
@@ -81,21 +137,62 @@ public class Livraria_Main {
 						
 						switch(escolhaMenu) {
 						case 0: 
-							nomeLivro[cdLivroPesquisado] =
-									JOptionPane.showInputDialog(null, "Insira o novo nome do livro: ",nomeLivro[cdLivroPesquisado]);
+							novoNomeLivro = JOptionPane.showInputDialog(null, "Insira o novo nome do livro: ",nomeLivro[cdLivroPesquisado]);
+							
+							//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
+							if(novoNomeLivro == null) {
+								break;
+							}else if(novoNomeLivro.trim().equals("")) {
+								FormataMensagemJOPTION("Por favor, insira um texto no nome do Livro", "Erro", "ERROR");
+								break;
+							}
+							
+							nomeLivro[cdLivroPesquisado] = novoNomeLivro;
+							
+							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
 							break;
 						case 1:
-							quantidadeLivro[cdLivroPesquisado] = Integer.parseInt(
-									JOptionPane.showInputDialog(null, "Insira a nova quantidade do livro: ",quantidadeLivro[cdLivroPesquisado]));
+							valor = JOptionPane.showInputDialog(null, "Insira a nova quantidade do livro: ",quantidadeLivro[cdLivroPesquisado]);
+							
+							//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
+							if(valor == null) {
+								break;
+							}
+							
+							//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE QUANTIDADE
+							try {
+								novaQuantidadeLivro = Integer.parseInt(valor);	
+							} catch (NumberFormatException e) {
+								FormataMensagemJOPTION("Por favor, insira um número válido para a quantidade de Livros", "Erro", "ERROR");
+								break;
+							}
+							
+							quantidadeLivro[cdLivroPesquisado] = novaQuantidadeLivro;
+							
+							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
 							break;
 						case 2:
-							precoLivro[cdLivroPesquisado] = Double.parseDouble(
-									JOptionPane.showInputDialog(null,"Insira o novo preço do livro: ",precoLivro[cdLivroPesquisado]));							
+							
+							valor = JOptionPane.showInputDialog(null,"Insira o novo preço do livro: ",precoLivro[cdLivroPesquisado]);
+							
+									//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
+							if(valor == null) {
+								break;
+							}
+							
+							//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE VALOR
+							try {
+								novoPrecoLivro = Double.parseDouble(valor);	
+							} catch (NumberFormatException e) {
+								FormataMensagemJOPTION("Por favor, insira um número válido para o valor dos Livros", "Erro", "ERROR");
+								break;
+							}
+							
+							precoLivro[cdLivroPesquisado] = novoPrecoLivro;	
+							
+							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
 							break;
-		
 						}
-						FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
-
 					} else if (escolhaMenu == 1) {
 						if (cdLivroPesquisado == codigoLivroAtual - 1) {
 							nomeLivro[cdLivroPesquisado] = "N/A";
