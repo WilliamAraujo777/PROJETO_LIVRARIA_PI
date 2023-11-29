@@ -45,7 +45,7 @@ public class Livraria_Main {
         
         
         //POPULO OS VETORES DE ACORDO COM O TXT
-		DownloadTXT("Livros.txt");
+		DownloadTXT("TXTs/Livros.txt");
         
 		while (continuaMenu == true) {
 
@@ -112,7 +112,7 @@ public class Livraria_Main {
 				precoLivro[codigoLivroAtual] 		= novoPrecoLivro;
 
 				FormataMensagemJOPTION("O livro: " + nomeLivro[codigoLivroAtual] + "\nFoi armazenado com sucesso!", "SAINDO", "INFORMATION");
-				UploadTXT("Livros.txt");
+				UploadTXT("TXTs/Livros.txt");
 				codigoLivroAtual = codigoLivroAtual + 1;
 				break;
 			case 1:
@@ -164,7 +164,7 @@ public class Livraria_Main {
 							nomeLivro[cdLivroPesquisado] = novoNomeLivro;
 							
 							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
-							UploadTXT("Livros.txt");
+							UploadTXT("TXTs/Livros.txt");
 							break;
 						case 1:
 							valor = JOptionPane.showInputDialog(null, "Insira a nova quantidade do livro: ",quantidadeLivro[cdLivroPesquisado]);
@@ -185,7 +185,7 @@ public class Livraria_Main {
 							quantidadeLivro[cdLivroPesquisado] = novaQuantidadeLivro;
 							
 							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
-							UploadTXT("Livros.txt");
+							UploadTXT("TXTs/Livros.txt");
 							break;
 						case 2:
 							
@@ -207,7 +207,7 @@ public class Livraria_Main {
 							precoLivro[cdLivroPesquisado] = novoPrecoLivro;	
 							
 							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
-							UploadTXT("Livros.txt");
+							UploadTXT("TXTs/Livros.txt");
 							break;
 						}
 					} else if (escolhaMenu == 1) {
@@ -224,7 +224,7 @@ public class Livraria_Main {
 								codigoLivroAtual = codigoLivroAtual -1;
 							}
 						}
-						UploadTXT("Livros.txt");
+						UploadTXT("TXTs/Livros.txt");
 						FormataMensagemJOPTION("LIVRO DELETADO", "DELETE", "INFORMATION");
 					}
 				}
