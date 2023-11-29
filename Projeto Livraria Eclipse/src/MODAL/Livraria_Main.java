@@ -1,12 +1,22 @@
 package MODAL;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class Livraria_Main {
-
+	static String	[] nomeLivro 		= new String[8000];
+	static int		[] quantidadeLivro 	= new int	[8000];
+	static int		codigoLivroAtual 	= 0;
+	static double	[] precoLivro 		= new double[8000];
+	
 	public static void main(String[] args) {
 
 		//VARIAVEIS 
@@ -15,19 +25,14 @@ public class Livraria_Main {
 		String 	novoNomeLivro = "";
 		String valor = "";
 		int 	novaQuantidadeLivro = 0;
-		int 	escolhaMenu=0,codigoLivroAtual=0,cdLivroPesquisado = 0;
+		int 	escolhaMenu=0,cdLivroPesquisado = 0;
 		Double 	novoPrecoLivro = 0.0;
 	
-		
 		//VETORES
-		String	[] nomeLivro 		= new String[8000];
 		String	[] opcoesMenu = {"Inserir Livro", "Pesquisar Livro", "Ver todos os Livros", "Finalizar Sistema"};
 		String	[] opcoesPesquisa = {"Alterar Livro", "Deletar Livro", "Voltar ao menu" };
 		String	[] opcoesUpdate = {"Nome","Quantidade","Preco"};
-		int		[] quantidadeLivro 	= new int	[8000];
-		double	[] precoLivro 		= new double[8000];
 
-		
 		//OBJETOS
 		DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("CÓDIGO LIVRO");
@@ -37,6 +42,10 @@ public class Livraria_Main {
         
         JTable tabelaLivros;
         JScrollPane ModeloFinalLivros;
+        
+        
+        //POPULO OS VETORES DE ACORDO COM O TXT
+		DownloadTXT("Livros.txt");
         
 		while (continuaMenu == true) {
 
@@ -58,6 +67,11 @@ public class Livraria_Main {
 					break;
 				}else if(novoNomeLivro.trim().equals("")) {
 					FormataMensagemJOPTION("Por favor, insira um texto no nome do Livro", "Erro", "ERROR");
+					break;
+				}
+				
+				if(novoNomeLivro.contains(";")) {
+					FormataMensagemJOPTION("Não Insira ';' nos livros", "Erro", "ERROR");
 					break;
 				}
 
@@ -93,12 +107,12 @@ public class Livraria_Main {
 					break;
 				}
 				
-				
 				nomeLivro[codigoLivroAtual] 		= novoNomeLivro;
 				quantidadeLivro[codigoLivroAtual] 	= novaQuantidadeLivro;
 				precoLivro[codigoLivroAtual] 		= novoPrecoLivro;
 
 				FormataMensagemJOPTION("O livro: " + nomeLivro[codigoLivroAtual] + "\nFoi armazenado com sucesso!", "SAINDO", "INFORMATION");
+				UploadTXT("Livros.txt");
 				codigoLivroAtual = codigoLivroAtual + 1;
 				break;
 			case 1:
@@ -150,6 +164,7 @@ public class Livraria_Main {
 							nomeLivro[cdLivroPesquisado] = novoNomeLivro;
 							
 							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
+							UploadTXT("Livros.txt");
 							break;
 						case 1:
 							valor = JOptionPane.showInputDialog(null, "Insira a nova quantidade do livro: ",quantidadeLivro[cdLivroPesquisado]);
@@ -170,6 +185,7 @@ public class Livraria_Main {
 							quantidadeLivro[cdLivroPesquisado] = novaQuantidadeLivro;
 							
 							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
+							UploadTXT("Livros.txt");
 							break;
 						case 2:
 							
@@ -191,15 +207,16 @@ public class Livraria_Main {
 							precoLivro[cdLivroPesquisado] = novoPrecoLivro;	
 							
 							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
+							UploadTXT("Livros.txt");
 							break;
 						}
 					} else if (escolhaMenu == 1) {
 						if (cdLivroPesquisado == codigoLivroAtual - 1) {
-							nomeLivro[cdLivroPesquisado] = "N/A";
+							nomeLivro[cdLivroPesquisado] = null;
 							codigoLivroAtual = codigoLivroAtual - 1;
 
 						} else {
-							nomeLivro[cdLivroPesquisado] = "N/A";
+							nomeLivro[cdLivroPesquisado] = null;
 							for (int i = 0; i <= cdLivroPesquisado - 1; i++) {
 								nomeLivro[i] = nomeLivro[i + 1];
 								precoLivro[i] = precoLivro[i + 1];
@@ -207,6 +224,7 @@ public class Livraria_Main {
 								codigoLivroAtual = codigoLivroAtual -1;
 							}
 						}
+						UploadTXT("Livros.txt");
 						FormataMensagemJOPTION("LIVRO DELETADO", "DELETE", "INFORMATION");
 					}
 				}
@@ -220,7 +238,7 @@ public class Livraria_Main {
 		        modelo.addColumn("QUANTIDADE");
 				
 				for (int i = 0; i < codigoLivroAtual; i++) {
-					if (!"N/A".equals(nomeLivro[i])) {
+					if (nomeLivro[i] != null) {
 						modelo.addRow(new Object[]{i, nomeLivro[i], precoLivro[i], quantidadeLivro[i]});
 					}
 				}
@@ -254,5 +272,47 @@ public class Livraria_Main {
 			JOptionPane.showMessageDialog(null, msg, titulo, JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
+	public static void UploadTXT(String nomeArquivo) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo))) {
+            // Iterar sobre as posições dos arrays
+            for (int i = 0; i < nomeLivro.length; i++) {
+            	
+            	if (nomeLivro[i] != null) {
+            		//Populando linhas para guarda-las no arquivo
+	                String linha = nomeLivro[i] + ";" + quantidadeLivro[i] + ";" + precoLivro[i];
+	
+	                // Escrever a linha no arquivo
+	                writer.write(linha);
+	
+	                // Adicionar quebra de linha se não for a última linha
+	                if (i < nomeLivro.length - 1) {
+	                    writer.newLine();
+	                }
+            	}
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	public static void DownloadTXT(String nomeArquivo) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] partes = linha.split(";");
+
+                if (partes.length >= 3) {
+                    nomeLivro[codigoLivroAtual] = partes[0];
+                    quantidadeLivro[codigoLivroAtual] = Integer.parseInt(partes[1]);
+                    precoLivro[codigoLivroAtual] = Double.parseDouble(partes[2]);
+
+                    codigoLivroAtual++;
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+        	FormataMensagemJOPTION("Arquivo de download de dados não encontrado", "Atenção", "WARNING");
+        }
+    }
 }
 
