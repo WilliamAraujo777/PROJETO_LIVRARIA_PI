@@ -48,7 +48,7 @@ public class Livraria_Main {
         login.Logar(posicaoUsuario);
         
         //POPULO OS VETORES DE ACORDO COM O TXT
-		DownloadTXT("TXTs/Livros.txt");
+		DownloadTXT("Exe/TXTs/Livros.txt");
         
 		while (continuaMenu == true) {
 
@@ -115,7 +115,7 @@ public class Livraria_Main {
 				precoLivro[codigoLivroAtual] 		= novoPrecoLivro;
 
 				FormataMensagemJOPTION("O livro: " + nomeLivro[codigoLivroAtual] + "\nFoi armazenado com sucesso!", "SAINDO", "INFORMATION");
-				UploadTXT("TXTs/Livros.txt");
+				UploadTXT("Exe/TXTs/Livros.txt");
 				codigoLivroAtual = codigoLivroAtual + 1;
 				break;
 			case 1:
@@ -227,7 +227,7 @@ public class Livraria_Main {
 								codigoLivroAtual = codigoLivroAtual -1;
 							}
 						}
-						UploadTXT("TXTs/Livros.txt");
+						UploadTXT("Exe/TXTs/Livros.txt");
 						FormataMensagemJOPTION("LIVRO DELETADO", "DELETE", "INFORMATION");
 					}
 				}
