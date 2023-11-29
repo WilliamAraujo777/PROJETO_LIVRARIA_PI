@@ -45,7 +45,7 @@ public class Livraria_Main {
         JTable tabelaLivros;
         JScrollPane ModeloFinalLivros;
         
-        login.Logar(posicaoUsuario);
+        login.Logar();
         
         //POPULO OS VETORES DE ACORDO COM O TXT
 		DownloadTXT("Exe/TXTs/Livros.txt");

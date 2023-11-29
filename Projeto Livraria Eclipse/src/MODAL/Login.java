@@ -1,79 +1,141 @@
- package MODAL;
+package MODAL;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
-
+ 
 public class Login {
 
-    int id;
-    String usuario;
-    String nome;
-    String senha;
+	int id;
+	String usuario;
+	String nome;
+	String senha;
+	
+	int nMenu = 0;
 
-    String[] usuarios = new String[8000];
-    String[] senhas = new String[8000];
+	static String[] usuarios = new String[8000];
+	static String[] senhas = new String[8000];
+	int posicaoUsuario;
+	
+	String[] opcoesMenu = { "Login", "Cadastrar", "Sair" };
+	
+	
 
-    String menu = "\n==============================! MENU PRINCIPAL !===============================\n 1 - LOGIN\n 2 - CADASTRAR\n 3 - SAIR";
-    boolean loop = true;
+	String menu = "\n==============================! MENU PRINCIPAL !===============================";
+	boolean loop = true;
 
-    public int Logar(int posicaoUsuario) {
-        int opcao = 0;
+	public int Logar() {
+		
+		DownloadTXT("Exe/TXTs/Usuarios.txt");
+		
+		int opcao = 0;
 
-        while (loop) {
-            String nMenu = JOptionPane.showInputDialog(null, menu);
-            opcao = nMenu.charAt(0);
+		while (loop) {
+			nMenu = (JOptionPane.showOptionDialog(null,menu,null, 0, 3,
+					null, opcoesMenu, opcoesMenu[0]));
+			
+			if(nMenu == JOptionPane.CLOSED_OPTION) {
+				nMenu = 2;
+			}
 
-            switch (opcao) {
-                case '1':
-                    loop = login();
-                    break;
+			switch (nMenu) {
+			case 0:
+				loop = login();
+				break;
 
-                case '2':
-                    posicaoUsuario = cadastrar(posicaoUsuario);
-                    break;
+			case 1:
+				this.posicaoUsuario = cadastrar(posicaoUsuario);
+				break;
 
-                case '3':
-                    sair();
-                    break;
+			case 2:
+				sair();
+				break;
 
-                default:
-                    JOptionPane.showMessageDialog(null, "Opção inválida");
-                    break;
+			default:
+				JOptionPane.showMessageDialog(null, "Opção inválida");
+				break;
+			}
+		}
+
+		return this.posicaoUsuario;
+	}
+
+	public boolean login() {
+		String usuario = JOptionPane.showInputDialog(null, "Digite o nome do usuário:");
+		String senha = JOptionPane.showInputDialog(null, "Digite a senha do usuário:");
+
+		int indexUsuario = Arrays.asList(usuarios).indexOf(usuario);
+
+		if (indexUsuario != -1 && senhas[indexUsuario].equals(senha)) {
+			JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
+			JOptionPane.showMessageDialog(null, "Seja bem vindo " + usuario);
+			return false; // Retorna false para finalizar o loop
+		} else {
+			JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos");
+			return true;
+		}
+
+	}
+
+	public int cadastrar(int posicaoUsuario) {
+		String usuario = JOptionPane.showInputDialog(null, "Digite o nome do usuário:");
+		String senha = JOptionPane.showInputDialog(null, "Digite a senha do usuário:");
+
+		usuarios[posicaoUsuario] = usuario;
+		senhas[posicaoUsuario] = senha;
+		JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+		
+		UploadTXT("Exe/TXTs/Usuarios.txt");
+		
+		return posicaoUsuario++;
+	}
+
+	public void sair() {
+		JOptionPane.showMessageDialog(null, "Saindo...");
+		System.exit(0);
+	}
+	
+	public static void UploadTXT(String nomeArquivo) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo))) {
+            // Iterar sobre as posições dos arrays
+            for (int i = 0; i < usuarios.length; i++) {
+            	
+            	if (usuarios[i] != null) {
+            		//Populando linhas para guarda-las no arquivo
+	                String linha = usuarios[i] + ";" + senhas[i];
+	
+	                // Escrever a linha no arquivo
+	                writer.write(linha);
+	
+	                // Adicionar quebra de linha se não for a última linha
+	                if (i < usuarios.length - 1) {
+	                    writer.newLine();
+	                }
+            	}
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        return posicaoUsuario;
-    }
-
-    public boolean login() {
-        String usuario = JOptionPane.showInputDialog(null, "Digite o nome do usuário:");
-        String senha = JOptionPane.showInputDialog(null, "Digite a senha do usuário:");
-
-        int indexUsuario = Arrays.asList(usuarios).indexOf(usuario);
-
-        if (indexUsuario != -1 && senhas[indexUsuario].equals(senha)) {
-            JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
-            JOptionPane.showMessageDialog(null, "Seja bem vindo " + usuario);
-            return false; // Retorna false para finalizar o loop
-        } else {
-            JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos");
-            return true;
-         }
-        
-    }
-
-    public int cadastrar(int posicaoUsuario) {
-        String usuario = JOptionPane.showInputDialog(null, "Digite o nome do usuário:");
-        String senha = JOptionPane.showInputDialog(null, "Digite a senha do usuário:");
-
-        usuarios[posicaoUsuario] = usuario;
-        senhas[posicaoUsuario] = senha;
-        JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
-        return posicaoUsuario++;
-    }
-
-    public void sair() {
-        JOptionPane.showMessageDialog(null, "Saindo...");
-        System.exit(0);
+	}
+	
+	public void DownloadTXT(String nomeArquivo) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] partes = linha.split(";");
+                
+                if (partes.length >= 2) {
+                    usuarios[this.posicaoUsuario] = partes[0];
+                    senhas[this.posicaoUsuario] = partes[1];
+                    this.posicaoUsuario++;
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+        	JOptionPane.showMessageDialog(null, "Arquivo de download de dados não encontrado", "Atenção", JOptionPane.WARNING_MESSAGE);
+        }
     }
 }
