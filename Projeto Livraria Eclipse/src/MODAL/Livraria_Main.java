@@ -167,7 +167,7 @@ public class Livraria_Main {
 							nomeLivro[cdLivroPesquisado] = novoNomeLivro;
 							
 							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
-							UploadTXT("TXTs/Livros.txt");
+							UploadTXT("Exe/TXTs/Livros.txt");
 							break;
 						case 1:
 							valor = JOptionPane.showInputDialog(null, "Insira a nova quantidade do livro: ",quantidadeLivro[cdLivroPesquisado]);
@@ -188,7 +188,7 @@ public class Livraria_Main {
 							quantidadeLivro[cdLivroPesquisado] = novaQuantidadeLivro;
 							
 							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
-							UploadTXT("TXTs/Livros.txt");
+							UploadTXT("Exe/TXTs/Livros.txt");
 							break;
 						case 2:
 							
@@ -210,7 +210,7 @@ public class Livraria_Main {
 							precoLivro[cdLivroPesquisado] = novoPrecoLivro;	
 							
 							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
-							UploadTXT("TXTs/Livros.txt");
+							UploadTXT("Exe/TXTs/Livros.txt");
 							break;
 						}
 					} else if (escolhaMenu == 1) {
