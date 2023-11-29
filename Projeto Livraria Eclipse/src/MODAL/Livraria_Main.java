@@ -18,14 +18,16 @@ public class Livraria_Main {
 	static double	[] precoLivro 		= new double[8000];
 	
 	public static void main(String[] args) {
-
+		
+		
+		
 		//VARIAVEIS 
 		boolean continuaMenu 		= true;
 		String  msgLivroPesquisado 	= "";
 		String 	novoNomeLivro = "";
 		String valor = "";
 		int 	novaQuantidadeLivro = 0;
-		int 	escolhaMenu=0,cdLivroPesquisado = 0;
+		int 	escolhaMenu=0,cdLivroPesquisado = 0, posicaoUsuario = 0;
 		Double 	novoPrecoLivro = 0.0;
 	
 		//VETORES
@@ -34,15 +36,16 @@ public class Livraria_Main {
 		String	[] opcoesUpdate = {"Nome","Quantidade","Preco"};
 
 		//OBJETOS
+		Login login = new Login();
 		DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("CÓDIGO LIVRO");
         modelo.addColumn("NOME DO LIVRO");
         modelo.addColumn("PREÇO");
         modelo.addColumn("QUANTIDADE");
-        
         JTable tabelaLivros;
         JScrollPane ModeloFinalLivros;
         
+        login.Logar(posicaoUsuario);
         
         //POPULO OS VETORES DE ACORDO COM O TXT
 		DownloadTXT("TXTs/Livros.txt");
