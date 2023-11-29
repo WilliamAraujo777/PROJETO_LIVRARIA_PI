@@ -301,7 +301,8 @@ public class Livraria_Main {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] partes = linha.split(";");
-
+                	
+                
                 if (partes.length >= 3) {
                     nomeLivro[codigoLivroAtual] = partes[0];
                     quantidadeLivro[codigoLivroAtual] = Integer.parseInt(partes[1]);
