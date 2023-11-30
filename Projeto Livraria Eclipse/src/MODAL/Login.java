@@ -23,8 +23,6 @@ public class Login {
 	
 	String[] opcoesMenu = { "Login", "Cadastrar", "Sair" };
 	
-	
-
 	String menu = "\n==============================! MENU PRINCIPAL !===============================";
 	boolean loop = true;
 
@@ -66,10 +64,26 @@ public class Login {
 
 	public boolean login() {
 		String usuario = JOptionPane.showInputDialog(null, "Digite o nome do usuário:");
+		
+		
+		//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
+		if(usuario == null) {
+			return true;
+		}else if(usuario.trim().equals("")) {
+			JOptionPane.showMessageDialog(null,"Por favor, insira um texto no nome do usuario", "Erro", JOptionPane.ERROR_MESSAGE);
+			return true;
+		}
+		
 		String senha = JOptionPane.showInputDialog(null, "Digite a senha do usuário:");
-
+		if(senha == null) {
+			return true;
+		}else if(senha.trim().equals("")) {
+			JOptionPane.showMessageDialog(null,"Por favor, insira um texto na senha", "Erro", JOptionPane.ERROR_MESSAGE);
+			return true;
+		}		
+		
 		int indexUsuario = Arrays.asList(usuarios).indexOf(usuario);
-
+		
 		if (indexUsuario != -1 && senhas[indexUsuario].equals(senha)) {
 			JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
 			JOptionPane.showMessageDialog(null, "Seja bem vindo " + usuario);
@@ -83,7 +97,23 @@ public class Login {
 
 	public int cadastrar(int posicaoUsuario) {
 		String usuario = JOptionPane.showInputDialog(null, "Digite o nome do usuário:");
+		
+		
+		//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
+		if(usuario == null) {
+			return posicaoUsuario;
+		}else if(usuario.trim().equals("")) {
+			JOptionPane.showMessageDialog(null,"Por favor, insira um texto no nome do usuario", "Erro", JOptionPane.ERROR_MESSAGE);
+			return posicaoUsuario;
+		}
+		
 		String senha = JOptionPane.showInputDialog(null, "Digite a senha do usuário:");
+		if(senha == null) {
+			return posicaoUsuario;
+		}else if(senha.trim().equals("")) {
+			JOptionPane.showMessageDialog(null,"Por favor, insira um texto na senha", "Erro", JOptionPane.ERROR_MESSAGE);
+			return posicaoUsuario;
+		}		
 
 		usuarios[posicaoUsuario] = usuario;
 		senhas[posicaoUsuario] = senha;
