@@ -28,7 +28,7 @@ public class Login {
 
 	public int Logar() {
 		
-		DownloadTXT("Exe/TXTs/Usuarios.txt");
+		DownloadTXT("TXTs/Usuarios.txt");
 		
 		int opcao = 0;
 
@@ -119,7 +119,7 @@ public class Login {
 		senhas[posicaoUsuario] = senha;
 		JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
 		
-		UploadTXT("Exe/TXTs/Usuarios.txt");
+		UploadTXT("TXTs/Usuarios.txt");
 		
 		return posicaoUsuario++;
 	}
