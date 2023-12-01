@@ -1,1 +1,6 @@
-Teste;123;123.0
+Teste;1;986.0
+William While;4;43.2
+12 formas de comprar um urso legalmente;3;12.2
+william;123;123.0
+1212;12;12.0
+wwww;12;12.0

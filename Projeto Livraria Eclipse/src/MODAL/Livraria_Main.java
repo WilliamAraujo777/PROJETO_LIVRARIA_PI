@@ -23,6 +23,7 @@ public class Livraria_Main {
 		
 		//VARIAVEIS 
 		boolean continuaMenu 		= true;
+		boolean continuaLivro = true;
 		String  msgLivroPesquisado 	= "";
 		String 	novoNomeLivro = "";
 		String valor = "";
@@ -61,54 +62,87 @@ public class Livraria_Main {
 			}
 
 			switch (escolhaMenu) {
-			case 0:			
-				novoNomeLivro = JOptionPane.showInputDialog
-						(null, "Insira o nome do livro: ", "NOME", JOptionPane.INFORMATION_MESSAGE);
+			case 0:		
+				continuaLivro = true;
+				while(continuaLivro) {
+					novoNomeLivro = JOptionPane.showInputDialog
+							(null, "Insira o nome do livro: ", "NOME", JOptionPane.INFORMATION_MESSAGE);
+					
+					//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
+					if(novoNomeLivro == null) {
+						continuaLivro = false;
+					}else if(novoNomeLivro.trim().equals("")) {
+						FormataMensagemJOPTION("Por favor, insira um texto no nome do Livro", "Erro", "ERROR");
+						continue;
+					}else if(novoNomeLivro.length()>80) {
+						FormataMensagemJOPTION("Por favor, não insira texto com mais de 50 caracteres no nome do Livro", "Erro", "ERROR");
+						continue;
+					}else{
+						try {
+				            validaNomeLivro(novoNomeLivro);
+				        } catch (IllegalArgumentException e) {
+				        	FormataMensagemJOPTION(e.getMessage(), "Erro", "ERROR");
+				        	continue;
+				        }
+					}
+					continuaLivro = false;
+				}
 				
-				//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
 				if(novoNomeLivro == null) {
-					break;
-				}else if(novoNomeLivro.trim().equals("")) {
-					FormataMensagemJOPTION("Por favor, insira um texto no nome do Livro", "Erro", "ERROR");
 					break;
 				}
 				
-				if(novoNomeLivro.contains(";")) {
-					FormataMensagemJOPTION("Não Insira ';' nos livros", "Erro", "ERROR");
+				//QUANTIDADE DE LIVROS
+				continuaLivro = true;
+				
+				while(continuaLivro) {
+					valor = JOptionPane.showInputDialog
+							(null, "Insira a quantidade de livros: ", "QUANTIDADE", JOptionPane.INFORMATION_MESSAGE);
+					
+					//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
+					if(valor == null) {
+						continuaLivro = false;
+					}else {
+						//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE QUANTIDADE
+						try {
+							novaQuantidadeLivro = Integer.parseInt(valor);	
+						} catch (NumberFormatException e) {
+							FormataMensagemJOPTION("Por favor, insira um número válido para a quantidade de Livros", "Erro", "ERROR");
+							continue;
+						}
+					}
+					continuaLivro = false;
+				}
+				if(valor == null) {
+					break;
+				}
+				
+				//VALOR DO LIVRO
+				continuaLivro = true;
+				
+				while(continuaLivro) {
+					valor = JOptionPane.showInputDialog
+							(null, "Insira o valor do livro: ", "VALOR", JOptionPane.INFORMATION_MESSAGE);
+					
+					//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO				
+					if(valor == null) {
+						continuaLivro = false;
+					}else {
+						//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE VALOR
+						try {
+							novoPrecoLivro = Double.parseDouble(valor);	
+						} catch (NumberFormatException e) {
+							FormataMensagemJOPTION("Por favor, insira um número válido para o valor dos Livros", "Erro", "ERROR");
+							continue;
+						}	
+					}
+					continuaLivro = false;
+				}
+				
+				if(valor == null) {
 					break;
 				}
 
-				valor = JOptionPane.showInputDialog
-						(null, "Insira a quantidade de livros: ", "QUANTIDADE", JOptionPane.INFORMATION_MESSAGE);
-				
-				//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
-				if(valor == null) {
-					break;
-				}
-				
-				//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE QUANTIDADE
-				try {
-					novaQuantidadeLivro = Integer.parseInt(valor);	
-				} catch (NumberFormatException e) {
-					FormataMensagemJOPTION("Por favor, insira um número válido para a quantidade de Livros", "Erro", "ERROR");
-					break;
-				}
-				
-				valor = JOptionPane.showInputDialog
-						(null, "Insira o valor do livro: ", "VALOR", JOptionPane.INFORMATION_MESSAGE);
-				
-				//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO				
-				if(valor == null) {
-					break;
-				}
-				
-				//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE VALOR
-				try {
-					novoPrecoLivro = Double.parseDouble(valor);	
-				} catch (NumberFormatException e) {
-					FormataMensagemJOPTION("Por favor, insira um número válido para o valor dos Livros", "Erro", "ERROR");
-					break;
-				}
 				
 				nomeLivro[codigoLivroAtual] 		= novoNomeLivro;
 				quantidadeLivro[codigoLivroAtual] 	= novaQuantidadeLivro;
@@ -154,34 +188,63 @@ public class Livraria_Main {
 						
 						switch(escolhaMenu) {
 						case 0: 
-							novoNomeLivro = JOptionPane.showInputDialog(null, "Insira o novo nome do livro: ",nomeLivro[cdLivroPesquisado]);
 							
-							//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
-							if(novoNomeLivro == null) {
-								break;
-							}else if(novoNomeLivro.trim().equals("")) {
-								FormataMensagemJOPTION("Por favor, insira um texto no nome do Livro", "Erro", "ERROR");
-								break;
+							continuaLivro = true;
+							while(continuaLivro) {
+								novoNomeLivro = JOptionPane.showInputDialog(null, "Insira o novo nome do livro: ",nomeLivro[cdLivroPesquisado]);
+
+								//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
+								if(novoNomeLivro == null) {
+									continuaLivro = false;
+								}else if(novoNomeLivro.trim().equals("")) {
+									FormataMensagemJOPTION("Por favor, insira um texto no nome do Livro", "Erro", "ERROR");
+									continue;
+								}else if(novoNomeLivro.length()>80) {
+									FormataMensagemJOPTION("Por favor, não insira texto com mais de 50 caracteres no nome do Livro", "Erro", "ERROR");
+									continue;
+								}else{
+									try {
+							            validaNomeLivro(novoNomeLivro);
+							        } catch (IllegalArgumentException e) {
+							        	FormataMensagemJOPTION(e.getMessage(), "Erro", "ERROR");
+							        	continue;
+							        }
+								}
+								continuaLivro = false;
 							}
 							
+							if(novoNomeLivro == null) {
+								break;
+							}
+
 							nomeLivro[cdLivroPesquisado] = novoNomeLivro;
 							
 							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
 							UploadTXT("TXTs/Livros.txt");
 							break;
 						case 1:
-							valor = JOptionPane.showInputDialog(null, "Insira a nova quantidade do livro: ",quantidadeLivro[cdLivroPesquisado]);
+							//QUANTIDADE DE LIVROS
+							continuaLivro = true;
+							
+							while(continuaLivro) {
+								valor = JOptionPane.showInputDialog(null, "Insira a nova quantidade do livro: ",quantidadeLivro[cdLivroPesquisado]);
+								//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
+								if(valor == null) {
+									continuaLivro = false;
+								}else {
+									//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE QUANTIDADE
+									try {
+										novaQuantidadeLivro = Integer.parseInt(valor);	
+									} catch (NumberFormatException e) {
+										FormataMensagemJOPTION("Por favor, insira um número válido para a quantidade de Livros", "Erro", "ERROR");
+										continue;
+									}
+								}
+								continuaLivro = false;
+							}
 							
 							//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
 							if(valor == null) {
-								break;
-							}
-							
-							//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE QUANTIDADE
-							try {
-								novaQuantidadeLivro = Integer.parseInt(valor);	
-							} catch (NumberFormatException e) {
-								FormataMensagemJOPTION("Por favor, insira um número válido para a quantidade de Livros", "Erro", "ERROR");
 								break;
 							}
 							
@@ -191,22 +254,31 @@ public class Livraria_Main {
 							UploadTXT("TXTs/Livros.txt");
 							break;
 						case 2:
+							//QUANTIDADE DE LIVROS
+							continuaLivro = true;
 							
-							valor = JOptionPane.showInputDialog(null,"Insira o novo preço do livro: ",precoLivro[cdLivroPesquisado]);
+							while(continuaLivro) {
+								valor = JOptionPane.showInputDialog(null,"Insira o novo preço do livro: ",precoLivro[cdLivroPesquisado]);
+
+								//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO				
+								if(valor == null) {
+									continuaLivro = false;
+								}else {
+									//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE VALOR
+									try {
+										novoPrecoLivro = Double.parseDouble(valor);	
+									} catch (NumberFormatException e) {
+										FormataMensagemJOPTION("Por favor, insira um número válido para o valor dos Livros", "Erro", "ERROR");
+										continue;
+									}	
+								}
+								continuaLivro = false;
+							}
 							
-									//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
+							//VERIFICO SE O BOTÃO "CANCEL" FOI CLICADO
 							if(valor == null) {
 								break;
 							}
-							
-							//VALIDAÇÃO SE FOI INCLUIDO UM NUMERO VALIDO NA VARIAVEL DE VALOR
-							try {
-								novoPrecoLivro = Double.parseDouble(valor);	
-							} catch (NumberFormatException e) {
-								FormataMensagemJOPTION("Por favor, insira um número válido para o valor dos Livros", "Erro", "ERROR");
-								break;
-							}
-							
 							precoLivro[cdLivroPesquisado] = novoPrecoLivro;	
 							
 							FormataMensagemJOPTION("LIVRO ALTERADO", "UPDATE", "INFORMATION");
@@ -318,5 +390,17 @@ public class Livraria_Main {
         	FormataMensagemJOPTION("Arquivo de download de dados não encontrado", "Atenção", "WARNING");
         }
     }
+	
+	  public static void validaNomeLivro(String nomeLivro) {
+	        // Define uma lista de caracteres especiais que você deseja bloquear
+	        char[] CaracteresInvalidos = {'!', '@', '#', '$', '%', '¨', '&', '*', '(', ')','`', '{', '^', '}', ':', '?', '>', '<', '+', '=', ';'};
+
+	        // Verifica se a string contém algum dos caracteres especiais
+	        for (char cont : CaracteresInvalidos) {
+	            if (nomeLivro.indexOf(cont) != -1) {
+	                throw new IllegalArgumentException("A string contém caracteres especiais.");
+	            }
+	        }
+	    }
 }
 
